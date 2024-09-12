@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import ActiveCallDetail from "./components/ActiveCallDetail";
 import Button from "./components/base/Button";
 import Vapi from "@vapi-ai/web";
 import { isPublicKeyMissingError } from "./utils";
@@ -10,56 +9,47 @@ const vapi = new Vapi("ad66965e-8208-4404-8b1c-ac4f81d2a107");
 const App = () => {
   const [connecting, setConnecting] = useState(false);
   const [connected, setConnected] = useState(false);
-
-  const [assistantIsSpeaking, setAssistantIsSpeaking] = useState(false);
   const [volumeLevel, setVolumeLevel] = useState(0);
-
-  const { showPublicKeyInvalidMessage, setShowPublicKeyInvalidMessage } = usePublicKeyInvalid();
 
   // Hook into Vapi events
   useEffect(() => {
     vapi.on("call-start", () => {
-      setConnecting(false); // Connecting stops once the call is established
-      setConnected(true); // Call is connected
-      setShowPublicKeyInvalidMessage(false);
+      setConnecting(false);
+      setConnected(true);
     });
 
     vapi.on("call-end", () => {
-      setConnecting(false); // Reset state when call ends
-      setConnected(false);  // Call is disconnected
-      setShowPublicKeyInvalidMessage(false);
-    });
-
-    vapi.on("speech-start", () => {
-      setAssistantIsSpeaking(true);
-    });
-
-    vapi.on("speech-end", () => {
-      setAssistantIsSpeaking(false);
+      setConnecting(false);
+      setConnected(false);
     });
 
     vapi.on("volume-level", (level) => {
-      setVolumeLevel(level);
+      console.log("Volume Level:", level);
+      setVolumeLevel(level); // Capture the volume level here
     });
 
     vapi.on("error", (error) => {
       console.error(error);
       setConnecting(false);
-      if (isPublicKeyMissingError({ vapiError: error })) {
-        setShowPublicKeyInvalidMessage(true);
-      }
     });
-  }, [setShowPublicKeyInvalidMessage]);
 
-  // Call start handler
+    // Cleanup Vapi listeners on unmount
+    return () => {
+      vapi.removeAllListeners();
+    };
+  }, []);
+
+  // Start call handler
   const startCallInline = () => {
     setConnecting(true);
     vapi.start("f6e9cb18-7967-429f-8735-b13098e3bccc");
   };
 
+  // End call handler
   const endCall = () => {
     vapi.stop();
   };
+  
 
   return (
     <div
@@ -69,94 +59,28 @@ const App = () => {
         height: "100vh",
         justifyContent: "center",
         alignItems: "center",
-        flexDirection: "column", // Stack the button and call details vertically
       }}
     >
-      {/* Single Button only, with dynamic label */}
-      <Button
-        label={connecting ? "Loading..." : connected ? "Press to stop" : "Start Call"} // Adjust label based on state
-        onClick={connected ? endCall : startCallInline}  // Change function to end call if connected
-        isLoading={connecting || connected}  // Keep loading/fog effect during connecting or connected states
-        disabled={connecting && !connected}  // Disable button while connecting
-      />
-
-      {/* Show the call details below the button when connected */}
-      {connected && (
-        <div style={{ marginTop: "20px" }}>
-          <ActiveCallDetail
-            assistantIsSpeaking={assistantIsSpeaking}
-            volumeLevel={volumeLevel}
-            onEndCallClick={endCall}
-          />
-        </div>
+      {!connected ? (
+        <Button
+          onClick={startCallInline}
+          isLoading={connecting}
+          connected={false} // Not connected, no glow
+        />
+      ) : (
+        <Button
+          label="End Call"
+          onClick={endCall}
+          isLoading={false}
+          volume={volumeLevel} // Pass volume to control glow intensity
+          connected={true} // Connected, enable glow effect
+        />
       )}
-
-      {showPublicKeyInvalidMessage ? <PleaseSetYourPublicKeyMessage /> : null}
-      <ReturnToDocsLink />
     </div>
-  );
-};
-
-const usePublicKeyInvalid = () => {
-  const [showPublicKeyInvalidMessage, setShowPublicKeyInvalidMessage] = useState(false);
-
-  useEffect(() => {
-    if (showPublicKeyInvalidMessage) {
-      setTimeout(() => {
-        setShowPublicKeyInvalidMessage(false);
-      }, 3000);
-    }
-  }, [showPublicKeyInvalidMessage]);
-
-  return {
-    showPublicKeyInvalidMessage,
-    setShowPublicKeyInvalidMessage,
-  };
-};
-
-const PleaseSetYourPublicKeyMessage = () => {
-  return (
-    <div
-      style={{
-        position: "fixed",
-        bottom: "25px",
-        left: "25px",
-        padding: "10px",
-        color: "#fff",
-        backgroundColor: "#f03e3e",
-        borderRadius: "5px",
-        boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
-      }}
-    >
-      Is your Vapi Public Key missing? (recheck your code)
-    </div>
-  );
-};
-
-const ReturnToDocsLink = () => {
-  return (
-    <a
-      href="https://docs.vapi.ai"
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{
-        position: "fixed",
-        top: "25px",
-        right: "25px",
-        padding: "5px 10px",
-        color: "#fff",
-        textDecoration: "none",
-        borderRadius: "5px",
-        boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
-      }}
-    >
-      return to docs
-    </a>
   );
 };
 
 export default App;
-
 
 // import { useEffect, useState } from "react";
 
@@ -244,15 +168,16 @@ export default App;
 //           isLoading={connecting}
 //         />
 //       ) : (
-//         <ActiveCallDetail
-//           assistantIsSpeaking={assistantIsSpeaking}
-//           volumeLevel={volumeLevel}
-//           onEndCallClick={endCall}
+//         <Button
+//           label="In Progress"
+//           onClick={endCall}
+//           isLoading={connected}
 //         />
-//       )}
+//       )
+//       }
 
 //       {showPublicKeyInvalidMessage ? <PleaseSetYourPublicKeyMessage /> : null}
-//       <ReturnToDocsLink />
+//       {/* <ReturnToDocsLink /> */}
 //     </div>
 //   );
 // };
@@ -294,26 +219,26 @@ export default App;
 //   );
 // };
 
-// const ReturnToDocsLink = () => {
-//   return (
-//     <a
-//       href="https://docs.vapi.ai"
-//       target="_blank"
-//       rel="noopener noreferrer"
-//       style={{
-//         position: "fixed",
-//         top: "25px",
-//         right: "25px",
-//         padding: "5px 10px",
-//         color: "#fff",
-//         textDecoration: "none",
-//         borderRadius: "5px",
-//         boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
-//       }}
-//     >
-//       return to docs
-//     </a>
-//   );
-// };
+// // const ReturnToDocsLink = () => {
+// //   return (
+// //     <a
+// //       href="https://docs.vapi.ai"
+// //       target="_blank"
+// //       rel="noopener noreferrer"
+// //       style={{
+// //         position: "fixed",
+// //         top: "25px",
+// //         right: "25px",
+// //         padding: "5px 10px",
+// //         color: "#fff",
+// //         textDecoration: "none",
+// //         borderRadius: "5px",
+// //         boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
+// //       }}
+// //     >
+// //       return to docs
+// //     </a>
+// //   );
+// // };
 
 // export default App;

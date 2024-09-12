@@ -1,8 +1,7 @@
 body {
   margin: 0;
   background-color: #010810;
-  font-family: "Inter", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-    "Helvetica Neue", sans-serif;
+  font-family: "Inter", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -17,72 +16,58 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 150px;  /* Increased circle size */
-  height: 150px; /* Increased circle size */
+  width: 150px;
+  height: 150px;
   background-color: #1c1c1c;
   border-radius: 50%;
-  box-shadow: 0 0 10px rgba(55, 0, 255, 0.6), inset 0 0 10px rgba(55, 0, 255, 0.6);
   cursor: pointer;
-  animation: pulse 2s infinite;
   position: relative;
+  transition: box-shadow 0.1s ease-in-out; /* Faster transition */
 }
 
-.custom-microphone-button img {
-  width: 40px; /* Smaller microphone */
-  height: 40px; /* Smaller microphone */
-}
-
-/* Glow effect */
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 10px rgba(55, 0, 255, 0.6), inset 0 0 10px rgba(55, 0, 255, 0.6);
-  }
-  50% {
-    box-shadow: 0 0 20px rgba(55, 0, 255, 0.8), inset 0 0 20px rgba(55, 0, 255, 0.8);
-  }
-  100% {
-    box-shadow: 0 0 10px rgba(55, 0, 255, 0.6), inset 0 0 10px rgba(55, 0, 255, 0.6);
-  }
-}
-
-Button with sphere and moving fog effect
-.custom-microphone-button.pressed {
-  width: 150px; /* Adjust size as needed */
+/* Static button */
+.custom-microphone-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
   height: 150px;
+  background-color: #1c1c1c;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(55, 0, 255, 0.2) 40%, rgba(0, 0, 0, 0.4) 80%);
-  position: relative;
-  overflow: hidden; /* This ensures nothing leaks outside the circle */
-  box-shadow: 0 0 20px rgba(55, 0, 255, 0.6), inset 0 0 20px rgba(55, 0, 255, 0.6);
+  cursor: pointer;
+  position: relative; /* Important to position the expanding ring correctly */
+  z-index: 1;
+  transition: box-shadow 0.1s ease-in-out; /* Fast shadow transition */
 }
 
-/* Layer for fog effect inside the sphere */
-.custom-microphone-button::before {
+/* Expanding glowing ring */
+.expanding-ring::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%; /* Set width and height to 100% of the sphere */
-  height: 100%;
-  background: radial-gradient(circle, rgba(55, 0, 255, 0.1), rgba(55, 0, 255, 0.3));
-  opacity: 0.8;
-  animation: fogMovement 10s infinite ease-in-out;
-  filter: blur(10px);
-  border-radius: 50%; /* Keep the fog inside the circle */
+  top: 50%;
+  left: 50%;
+  width: 150px;
+  height: 150px;
+  background-color: rgba(55, 0, 255, 0.5);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  z-index: -1; /* Behind the button */
+  animation: pulseExpand 1.5s infinite ease-in-out; /* Expanding animation */
 }
 
-/* Keyframes for the fog-like movement inside the sphere */
-@keyframes fogMovement {
+/* Keyframes for expanding ring */
+@keyframes pulseExpand {
   0% {
-    transform: translateX(0) translateY(0);
-    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
   }
-  50% {
-    transform: translateX(5px) translateY(-5px); /* Smaller movement */
-    opacity: 0.6;
+  70% {
+    transform: translate(-50%, -50%) scale(2.5); /* Expands the ring */
+    opacity: 0.4; /* Fades out as it expands */
   }
   100% {
-    transform: translateX(0) translateY(0);
-    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(3);
+    opacity: 0; /* Fully fades out */
   }
 }
