@@ -1,42 +1,37 @@
-import ScaleLoader from "react-spinners/ScaleLoader";
+import { useState, useEffect } from "react";
+import microphoneIcon from "../../utils/mic_icon.svg"; // Make sure the path is correct
 
 const Button = ({ label, onClick, isLoading, disabled }) => {
-  const opacity = disabled ? 0.75 : 1;
-  const cursor = disabled ? "not-allowed" : "pointer";
+  const [isPressed, setIsPressed] = useState(false);
 
-  const Contents = isLoading ? (
-    <ScaleLoader
-      color="#000"
-      height={10}
-      width={2.5}
-      margin={0.5}
-      loading={true}
-      size={50}
-      css={{ display: "block", margin: "0 auto" }}
-    />
-  ) : (
-    <p style={{ margin: 0, padding: 0 }}>{label}</p>
-  );
+  // Ensure the button stays in pressed state when loading or connected
+  useEffect(() => {
+    if (isLoading) {
+      setIsPressed(true); // Keep pressed/fog state when loading
+    } else {
+      setIsPressed(false); // Reset to default when not loading
+    }
+  }, [isLoading]);
+
+  const handleClick = () => {
+    onClick();
+  };
 
   return (
-    <button
-      onClick={onClick}
+    <div
+      className={`custom-microphone-button ${isPressed ? "pressed" : ""}`}
+      onClick={handleClick}
       style={{
-        backgroundColor: "white",
-        color: "black",
-        border: "2px solid #ddd",
-        borderRadius: "8px",
-        padding: "8px 20px",
-        fontSize: "16px",
-        outline: "none",
-        boxShadow: "0px 4px 8px rgba(0,0,0,0.1)",
-        transition: "all 0.3s ease",
-        opacity,
-        cursor,
+        opacity: disabled ? 0.75 : 1,
+        cursor: disabled ? "not-allowed" : "pointer",
       }}
     >
-      {Contents}
-    </button>
+      {isLoading ? (
+        <p style={{ margin: 0, padding: 0 }}>....</p> // Stay in loading/pressed state during the call
+      ) : (
+        <img src={microphoneIcon} alt="Microphone" style={{ width: "40px", height: "40px" }} />
+      )}
+    </div>
   );
 };
 

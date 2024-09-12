@@ -1,5 +1,5 @@
 import AssistantSpeechIndicator from "./call/AssistantSpeechIndicator";
-import Button from "./base/Button";
+// import Button from "./base/Button";
 import VolumeLevel from "./call/VolumeLevel";
 
 const ActiveCallDetail = ({ assistantIsSpeaking, volumeLevel, onEndCallClick }) => {
@@ -21,9 +21,6 @@ const ActiveCallDetail = ({ assistantIsSpeaking, volumeLevel, onEndCallClick }) 
       >
         <AssistantSpeechIndicator isSpeaking={assistantIsSpeaking} />
         <VolumeLevel volume={volumeLevel} />
-      </div>
-      <div style={{ marginTop: "20px", textAlign: "center" }}>
-        <Button label="End Call" onClick={onEndCallClick} />
       </div>
     </div>
   );

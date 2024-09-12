@@ -11,3 +11,78 @@ p {
   margin: 0;
   padding: 0;
 }
+
+/* Custom button container - Bigger circle */
+.custom-microphone-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;  /* Increased circle size */
+  height: 150px; /* Increased circle size */
+  background-color: #1c1c1c;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(55, 0, 255, 0.6), inset 0 0 10px rgba(55, 0, 255, 0.6);
+  cursor: pointer;
+  animation: pulse 2s infinite;
+  position: relative;
+}
+
+.custom-microphone-button img {
+  width: 40px; /* Smaller microphone */
+  height: 40px; /* Smaller microphone */
+}
+
+/* Glow effect */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 10px rgba(55, 0, 255, 0.6), inset 0 0 10px rgba(55, 0, 255, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(55, 0, 255, 0.8), inset 0 0 20px rgba(55, 0, 255, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(55, 0, 255, 0.6), inset 0 0 10px rgba(55, 0, 255, 0.6);
+  }
+}
+
+Button with sphere and moving fog effect
+.custom-microphone-button.pressed {
+  width: 150px; /* Adjust size as needed */
+  height: 150px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(55, 0, 255, 0.2) 40%, rgba(0, 0, 0, 0.4) 80%);
+  position: relative;
+  overflow: hidden; /* This ensures nothing leaks outside the circle */
+  box-shadow: 0 0 20px rgba(55, 0, 255, 0.6), inset 0 0 20px rgba(55, 0, 255, 0.6);
+}
+
+/* Layer for fog effect inside the sphere */
+.custom-microphone-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* Set width and height to 100% of the sphere */
+  height: 100%;
+  background: radial-gradient(circle, rgba(55, 0, 255, 0.1), rgba(55, 0, 255, 0.3));
+  opacity: 0.8;
+  animation: fogMovement 10s infinite ease-in-out;
+  filter: blur(10px);
+  border-radius: 50%; /* Keep the fog inside the circle */
+}
+
+/* Keyframes for the fog-like movement inside the sphere */
+@keyframes fogMovement {
+  0% {
+    transform: translateX(0) translateY(0);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateX(5px) translateY(-5px); /* Smaller movement */
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(0) translateY(0);
+    opacity: 0.8;
+  }
+}
