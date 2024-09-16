@@ -1,13 +1,16 @@
 import React from 'react';
-import microphoneIcon from '../../assets/microphoneIcon.svg';  // Make sure the path to the icon is correct
+import microphoneIcon from '../../assets/microphoneIcon.svg';  // Ensure the icon path is correct
 
 const Button = ({ label, onClick, isLoading, volume, connected }) => {
   // Apply the expanding-dots class if volume is detected and connected
   const effectClass = connected && volume > 0.05 ? 'expanding-dots' : '';
 
+  // Apply the glow effect when connected and volume is present
+  const glowClass = connected && volume > 0.05 ? 'glow' : '';
+
   return (
     <div
-      className={`custom-microphone-button ${effectClass}`} // Add expanding dots effect
+      className={`custom-microphone-button ${effectClass} ${glowClass}`} // Add expanding dots and glow effect
       onClick={onClick}
       style={{
         width: '150px',
