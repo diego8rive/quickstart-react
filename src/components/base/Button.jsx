@@ -1,42 +1,38 @@
-import ScaleLoader from "react-spinners/ScaleLoader";
+import React from 'react';
+import microphoneIcon from '../../assets/microphoneIcon.svg';  // Make sure the path to the icon is correct
 
-const Button = ({ label, onClick, isLoading, disabled }) => {
-  const opacity = disabled ? 0.75 : 1;
-  const cursor = disabled ? "not-allowed" : "pointer";
-
-  const Contents = isLoading ? (
-    <ScaleLoader
-      color="#000"
-      height={10}
-      width={2.5}
-      margin={0.5}
-      loading={true}
-      size={50}
-      css={{ display: "block", margin: "0 auto" }}
-    />
-  ) : (
-    <p style={{ margin: 0, padding: 0 }}>{label}</p>
-  );
+const Button = ({ label, onClick, isLoading, volume, connected }) => {
+  // Apply the expanding-dots class if volume is detected and connected
+  const effectClass = connected && volume > 0.05 ? 'expanding-dots' : '';
 
   return (
-    <button
+    <div
+      className={`custom-microphone-button ${effectClass}`} // Add expanding dots effect
       onClick={onClick}
       style={{
-        backgroundColor: "white",
-        color: "black",
-        border: "2px solid #ddd",
-        borderRadius: "8px",
-        padding: "8px 20px",
-        fontSize: "16px",
-        outline: "none",
-        boxShadow: "0px 4px 8px rgba(0,0,0,0.1)",
-        transition: "all 0.3s ease",
-        opacity,
-        cursor,
+        width: '150px',
+        height: '150px',
+        borderRadius: '50%',
+        cursor: 'pointer',
+        position: 'relative',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        background: 'radial-gradient(circle at 50% 50%, #ff6ec7, #9b51e0, #4d9fe1, #23d5ab)', // Multicolor gradient
       }}
     >
-      {Contents}
-    </button>
+      {isLoading ? (
+        <p style={{ color: '#fff' }}>Loading...</p>
+      ) : !connected ? (
+        <img
+          src={microphoneIcon}
+          alt="Microphone"
+          style={{ width: '40px', height: '40px' }}
+        />
+      ) : (
+        <p style={{ color: '#fff' }}>{label}</p>
+      )}
+    </div>
   );
 };
 
