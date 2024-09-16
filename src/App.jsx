@@ -50,17 +50,20 @@ const App = () => {
     vapi.stop();
   };
   
-
   return (
-    <div
-      style={{
-        display: "flex",
-        width: "100vw",
-        height: "100vh",
-        justifyContent: "center",
-        alignItems: "center",
+    <div 
+      className="App"
+      style={{ 
+        textAlign: 'center', 
+        minHeight: '100vh', 
+        display: 'flex', 
+        flexDirection: 'column', 
+        justifyContent: 'center', 
+        alignItems: 'center',
+        paddingBottom: '60px', // Add space for the footer
       }}
     >
+      {/* Button in the center */}
       {!connected ? (
         <Button
           onClick={startCallInline}
@@ -69,13 +72,26 @@ const App = () => {
         />
       ) : (
         <Button
-          label="End Call"
           onClick={endCall}
           isLoading={false}
           volume={volumeLevel} // Pass volume to control glow intensity
           connected={true} // Connected, enable glow effect
         />
       )}
+
+      {/* Persistent Footer */}
+      <footer 
+        style={{ 
+          position: 'absolute', 
+          bottom: '20px', 
+          width: '100%', 
+          textAlign: 'center', 
+          color: '#fff', 
+          fontSize: '12px'
+        }}
+      >
+        Developed by CoffeeUpCode
+      </footer>
     </div>
   );
 };
