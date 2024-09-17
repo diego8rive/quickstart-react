@@ -1,17 +1,22 @@
+// Button.jsx
+
 import React from 'react';
 import microphoneIcon from '../../assets/microphoneIcon.svg';  // Ensure the icon path is correct
 
 const Button = ({ label, onClick, isLoading, volume, connected }) => {
-   // Apply the glow effect when connected and volume is present
-  const effectClass = connected && volume > 0.05 ? 'neon-ring' : '';
+  // Determine the classes to apply
+  let buttonClasses = 'custom-microphone-button neon-button';
 
-     // Apply the glow effect when connected and volume is present
-  const buttonClass = isLoading ? 'connecting-effect' : connected && volume > 0.05 ? 'button-3d dimmed-gradient' : 'dimmed-gradient';
+  if (isLoading) {
+    buttonClasses += ' connecting-effect';
+  } else if (connected && volume > 0.05) {
+    buttonClasses += ' in-progress-effect';
+  }
 
   return (
     <div style={{ textAlign: 'center' }}>
       <div
-        className={`custom-microphone-button ${effectClass} ${buttonClass}`}
+        className={buttonClasses}
         onClick={onClick}
         style={{
           width: '150px',
@@ -34,14 +39,9 @@ const Button = ({ label, onClick, isLoading, volume, connected }) => {
             style={{ width: '40px', height: '40px' }}
           />
         ) : (
-          <p style={{ color: '#fff' }}>{label}</p>
+          <p style={{ color: '#fff' }}></p>
         )}
       </div>
-
-      {/* Display this text only when the call is connected */}
-      {connected && (
-        <p style={{ marginTop: '10px', color: '#fff' }}>Click to end the call</p>
-      )}
     </div>
   );
 };

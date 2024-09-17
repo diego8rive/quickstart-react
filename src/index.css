@@ -1,422 +1,125 @@
 /* index.css */
-
-/* Existing styles... */
-
 body {
   margin: 0;
-  font-family: "Inter", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  /* Add the following styles */
-  background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d, #23d5ab);
-  background-size: 800% 800%;
-  animation: gradientBackground 20s ease infinite;
-}
-
-@keyframes gradientBackground {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  25% {
-    background-position: 50% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  75% {
-    background-position: 50% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-p {
-  margin: 0;
-  padding: 0;
+  background: #000000;
+  /* Black background for better contrast */
+  font-family: 'Inter', sans-serif;
   color: #ffffff;
+  /* Default text color */
 }
 
-footer {
-  color: #ffffff;
-}
-
-/* Adjust button size for smaller screens */
-@media (max-width: 600px) {
-  .custom-microphone-button {
-    width: 120px;
-    height: 120px;
-  }
-
-  .neon-ring,
-  .connecting-effect {
-    width: 120px;
-    height: 120px;
-  }
-}
-
-/* Neon Grid Overlay */
-.neon-grid {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-    linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-  background-size: 50px 50px;
-  z-index: 1;
-  pointer-events: none;
-}
-
-/* Main button container with base neon glow */
-.custom-microphone-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 200px;
-  height: 200px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-  /* Multicolor */
+/* Neon Glow Effect */
+.neon-button {
+  background: linear-gradient(135deg, #8e2de2, #4a00e0);
+  /* Violet to purple gradient */
+  border: none;
   border-radius: 50%;
-  position: relative;
+  box-shadow:
+    0 0 5px #8e2de2,
+    0 0 10px #8e2de2,
+    0 0 20px #8e2de2,
+    0 0 40px #4a00e0,
+    0 0 80px #4a00e0,
+    inset 0 0 10px #8e2de2;
+  color: #fff;
   cursor: pointer;
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 25px rgba(0, 255, 255, 0.3);
-  /* Neon base glow */
-  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-out;
-  perspective: 1000px;
-  overflow: hidden;
+  transition: box-shadow 0.3s ease-in-out;
 }
 
-/* Add glowing effect when connected and voice volume is present */
-.glow {
-  box-shadow: 0 0 30px rgba(255, 105, 180, 1), 0 0 45px rgba(75, 0, 130, 1);
-  /* Stronger neon glow */
+/* Hover Effect */
+.neon-button:hover {
+  box-shadow:
+    0 0 10px #8e2de2,
+    0 0 20px #8e2de2,
+    0 0 40px #4a00e0,
+    0 0 80px #4a00e0,
+    inset 0 0 20px #8e2de2;
 }
 
-/* Expanding dots effect when volume increases */
-.expanding-dots::before {
-  transform: scale(3) rotateX(60deg) rotateY(60deg);
-  /* Dramatic scaling and rotation */
-  background-image: radial-gradient(circle, rgba(255, 255, 255, 1) 12%, transparent 13%);
-  /* Larger, brighter dots */
-  opacity: 1;
+/* Active State */
+.neon-button:active {
+  box-shadow:
+    0 0 5px #8e2de2,
+    0 0 10px #8e2de2,
+    0 0 20px #4a00e0,
+    inset 0 0 5px #4a00e0;
 }
 
-/* 3D effect on the button itself */
-.custom-microphone-button:active {
-  transform: scale(1.15) rotateX(10deg) rotateY(10deg);
-  /* Enhanced 3D effect on click */
-}
-
-/* Pulse Effect */
-.pulse {
-  animation: pulseEffect 1.5s infinite;
-}
-
-@keyframes pulseEffect {
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.1);
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}
-
-/* Wave Effect */
-.wave {
-  position: relative;
-  animation: waveEffect 2s infinite;
-}
-
-.wave::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 200%;
-  height: 200%;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  transform: translate(-50%, -50%) scale(0);
-  animation: ripple 2s infinite;
-  pointer-events: none;
-}
-
-@keyframes ripple {
-  0% {
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 1;
-  }
-
-  100% {
-    transform: translate(-50%, -50%) scale(2);
-    opacity: 0;
-  }
-}
-
-/* Glow Pulse Effect */
-.glow-pulse {
-  box-shadow: 0 0 15px rgba(255, 105, 180, 0.6), 0 0 25px rgba(75, 0, 130, 0.6);
-  animation: glowPulseEffect 2s infinite;
-}
-
-@keyframes glowPulseEffect {
-  0% {
-    box-shadow: 0 0 15px rgba(255, 105, 180, 0.6), 0 0 25px rgba(75, 0, 130, 0.6);
-  }
-
-  50% {
-    box-shadow: 0 0 25px rgba(255, 105, 180, 1), 0 0 40px rgba(75, 0, 130, 1);
-  }
-
-  100% {
-    box-shadow: 0 0 15px rgba(255, 105, 180, 0.6), 0 0 25px rgba(75, 0, 130, 0.6);
-  }
-}
-
-/* Shadow Morph Effect */
-.shadow-morph {
-  animation: shadowMorphEffect 2s infinite;
-}
-
-@keyframes shadowMorphEffect {
-
-  0%,
-  100% {
-    box-shadow: 0 0 10px rgba(255, 105, 180, 0.6), 0 0 20px rgba(75, 0, 130, 0.6);
-  }
-
-  50% {
-    box-shadow: 0 0 30px rgba(255, 105, 180, 0.9), 0 0 50px rgba(75, 0, 130, 0.9);
-  }
-}
-
-/* Neon Pulse Ring Effect */
-.neon-ring {
-  position: relative;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%, rgba(0, 255, 255, 0.1), rgba(0, 255, 255, 0));
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
-  animation: neonRingPulse 2.5s infinite;
-}
-
-@keyframes neonRingPulse {
-  0% {
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 30px rgba(0, 255, 255, 0.2);
-  }
-
-  50% {
-    box-shadow: 0 0 30px rgba(0, 255, 255, 0.7), 0 0 60px rgba(0, 255, 255, 0.4);
-  }
-
-  100% {
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5), 0 0 30px rgba(0, 255, 255, 0.2);
-  }
-}
-
-/* Waveform Effect */
-.waveform-effect {
-  position: relative;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background: transparent;
-  animation: waveEffect 2s infinite;
-}
-
-.waveform-effect::before,
-.waveform-effect::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  transform: translate(-50%, -50%) scale(0);
-  animation: rippleWave 2s infinite;
-}
-
-.waveform-effect::after {
-  animation-delay: 1s;
-}
-
-@keyframes rippleWave {
-  0% {
-    transform: translate(-50%, -50%) scale(0.8);
-    opacity: 0.8;
-  }
-
-  100% {
-    transform: translate(-50%, -50%) scale(1.5);
-    opacity: 0;
-  }
-}
-
-/* Multicolor Pulse */
-.multicolor-pulse {
-  position: relative;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%, #ff6ec7, #9b51e0, #4d9fe1, #23d5ab);
-  animation: multicolorPulseEffect 3s infinite;
-}
-
-@keyframes multicolorPulseEffect {
-  0% {
-    box-shadow: 0 0 15px rgba(255, 105, 180, 0.5), 0 0 30px rgba(75, 0, 130, 0.5);
-  }
-
-  50% {
-    box-shadow: 0 0 25px rgba(255, 105, 180, 1), 0 0 50px rgba(75, 0, 130, 1);
-  }
-
-  100% {
-    box-shadow: 0 0 15px rgba(255, 105, 180, 0.5), 0 0 30px rgba(75, 0, 130, 0.5);
-  }
-}
-
-/* Gradient Animation for the Button Body */
-.button-gradient-animation {
-  background: linear-gradient(135deg, #ff6ec7, #9b51e0, #4d9fe1, #23d5ab);
-  background-size: 400% 400%;
-  animation: gradientShift 5s ease infinite;
-}
-
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-/* Enhanced Inner Glow Effect for the Button */
-.inner-glow {
-  box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.8), inset 0 0 40px rgba(255, 255, 255, 0.5);
-}
-
-/* Dimmed Gradient for the Button Body */
-.dimmed-gradient {
-  background: radial-gradient(circle at 50% 50%, rgba(255, 110, 199, 0.7), rgba(155, 81, 224, 0.7), rgba(77, 159, 225, 0.7), rgba(35, 213, 171, 0.7));
-}
-
-/* Enhanced Rotating Border Effect */
-.rotating-border {
-  border: 6px solid transparent;
-  /* Increase the border size */
-  border-radius: 50%;
-  background: linear-gradient(#101010, #101010) padding-box,
-    linear-gradient(45deg, #ff6ec7, #4d9fe1, #9b51e0, #23d5ab) border-box;
-  animation: rotateBorder 3s linear infinite;
-}
-
-/* Rotating Border Effect */
-.rotating-border {
-  border: 4px solid transparent;
-  border-radius: 50%;
-  background: linear-gradient(#101010, #101010) padding-box,
-    linear-gradient(45deg, #ff6ec7, #4d9fe1, #9b51e0, #23d5ab) border-box;
-  animation: rotateBorder 3s linear infinite;
-}
-
-@keyframes rotateBorder {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-/* 3D Depth Effect for the Button */
-.button-3d {
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 6px 10px rgba(0, 0, 0, 0.1);
-  transform: translateY(-3px);
-  transition: all 0.2s ease;
-}
-
-.button-3d:active {
-  transform: translateY(0);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15), 0 3px 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Dimmed Gradient for the Button Body */
-.dimmed-gradient {
-  background: radial-gradient(circle at 50% 50%, rgba(255, 110, 199, 0.7), rgba(155, 81, 224, 0.7), rgba(77, 159, 225, 0.7), rgba(35, 213, 171, 0.7));
-}
-
-/* Lightning Ball Glow Effect */
-.lightning-ball-effect {
-  position: relative;
-  width: 150px;
-  height: 150px;
-  background: radial-gradient(circle, rgba(0, 183, 255, 0.4) 40%, transparent 60%);
-  border-radius: 50%;
-  box-shadow: 0 0 30px rgba(0, 183, 255, 0.6), 0 0 50px rgba(0, 183, 255, 0.8), 0 0 100px rgba(0, 183, 255, 1);
-  animation: pulseGlow 2s infinite;
-}
-
-/* Pulse glow animation */
-@keyframes pulseGlow {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 0 30px rgba(0, 183, 255, 0.6), 0 0 50px rgba(0, 183, 255, 0.8), 0 0 100px rgba(0, 183, 255, 1);
-  }
-
-  50% {
-    transform: scale(1.2);
-    box-shadow: 0 0 60px rgba(0, 183, 255, 0.8), 0 0 90px rgba(0, 183, 255, 1), 0 0 150px rgba(0, 183, 255, 1);
-  }
-
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 30px rgba(0, 183, 255, 0.6), 0 0 50px rgba(0, 183, 255, 0.8), 0 0 100px rgba(0, 183, 255, 1);
-  }
-}
-
-/* Rotating Glow Effect */
+/* Loading/Connecting Effect */
 .connecting-effect {
-  position: relative;
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 183, 255, 0.4) 40%, transparent 60%);
-  animation: pulseRing 1.5s infinite ease-in-out;
+  animation: pulseNeon 1.5s infinite;
 }
 
-/* Animation for Rotating Glow */
-@keyframes rotateGlow {
+@keyframes pulseNeon {
   0% {
-    transform: rotate(0deg);
-    box-shadow: 0 0 30px rgba(0, 183, 255, 0.6), 0 0 50px rgba(0, 183, 255, 0.8), 0 0 100px rgba(0, 183, 255, 1);
+    box-shadow:
+      0 0 5px #8e2de2,
+      0 0 10px #8e2de2,
+      0 0 20px #8e2de2,
+      0 0 40px #4a00e0,
+      0 0 80px #4a00e0,
+      inset 0 0 10px #8e2de2;
+  }
+
+  50% {
+    box-shadow:
+      0 0 10px #8e2de2,
+      0 0 20px #8e2de2,
+      0 0 40px #4a00e0,
+      0 0 80px #4a00e0,
+      inset 0 0 20px #8e2de2;
   }
 
   100% {
-    transform: rotate(360deg);
-    box-shadow: 0 0 30px rgba(0, 183, 255, 0.6), 0 0 50px rgba(0, 183, 255, 0.8), 0 0 100px rgba(0, 183, 255, 1);
+    box-shadow:
+      0 0 5px #8e2de2,
+      0 0 10px #8e2de2,
+      0 0 20px #8e2de2,
+      0 0 40px #4a00e0,
+      0 0 80px #4a00e0,
+      inset 0 0 10px #8e2de2;
   }
 }
+
+/* In-Progress Call Effect */
+.in-progress-effect {
+  animation: electricGlow 1s infinite;
+}
+
+@keyframes electricGlow {
+  0% {
+    box-shadow:
+      0 0 10px #ff00ff,
+      0 0 20px #ff00ff,
+      0 0 30px #ff00ff,
+      0 0 40px #ff00ff,
+      inset 0 0 10px #ff00ff;
+    transform: rotate(0deg);
+  }
+
+  50% {
+    box-shadow:
+      0 0 30px #ff00ff,
+      0 0 60px #ff00ff,
+      0 0 90px #ff00ff,
+      0 0 120px #ff00ff,
+      inset 0 0 30px #ff00ff;
+    transform: rotate(5deg) scale(1.05);
+  }
+
+  100% {
+    box-shadow:
+      0 0 10px #ff00ff,
+      0 0 20px #ff00ff,
+      0 0 30px #ff00ff,
+      0 0 40px #ff00ff,
+      inset 0 0 10px #ff00ff;
+    transform: rotate(0deg);
+  }
+}
+
+.in-progress-effect {
+  animation: electricGlow 0.8s infinite;
+}
+
+/* index.css */

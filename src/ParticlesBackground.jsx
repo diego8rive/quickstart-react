@@ -23,7 +23,7 @@ const ParticlesBackground = React.memo(() => {
                 },
             },
             color: {
-                value: "#ffffff",
+                value: ['#8e2de2', '#4a00e0'], // Violet and purple colors
             },
             opacity: {
                 value: 0.5,
@@ -34,9 +34,9 @@ const ParticlesBackground = React.memo(() => {
             move: {
                 enable: true,
                 speed: 1,
-                direction: "none",
+                direction: 'none',
                 outModes: {
-                    default: "bounce",
+                    default: 'bounce',
                 },
             },
             links: {

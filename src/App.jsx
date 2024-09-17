@@ -49,15 +49,25 @@ const App = () => {
     vapi.stop();
   };
 
+  // Determine the label text based on connection state
+  let labelText = "";
+  if (connecting) {
+    labelText = "Conectando...";
+  } else if (connected) {
+    labelText = "Pulse para terminar la llamada";
+  } else {
+    labelText = "Pulse el botón para asistencia";
+  }
+
   return (
     <div
       className="App"
       style={{
         position: "relative",
         overflow: "hidden",
+        minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
-        minHeight: "100vh",
       }}
     >
       {/* Render the particles background */}
@@ -66,6 +76,7 @@ const App = () => {
       {/* Main Content */}
       <div
         style={{
+          flex: 1,
           position: "relative",
           zIndex: 1,
           textAlign: "center",
@@ -73,36 +84,43 @@ const App = () => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          flex: 1,
+          padding: "20px",
         }}
       >
-        {/* Button */}
-        {!connected ? (
-          <Button
-            onClick={startCallInline}
-            isLoading={connecting}
-            connected={false}
-          />
-        ) : (
-          <Button
-            onClick={endCall}
-            isLoading={false}
-            volume={volumeLevel}
-            connected={true}
-          />
-        )}
-
-        {/* Footer */}
-        <footer
+        {/* Label at the top */}
+        <p
           style={{
-            marginTop: "20px",
-            color: "#fff",
-            fontSize: "12px",
+            marginBottom: "40px",
+            color: "#e0b3ff",
+            fontSize: "32px",
+            textShadow: "0 0 5px #e0b3ff",
           }}
         >
-          Desarrollado por CoffeeUpCode
-        </footer>
+          {labelText}
+        </p>
+
+        {/* Button */}
+        <Button
+          onClick={connected ? endCall : startCallInline}
+          isLoading={connecting}
+          connected={connected}
+          volume={volumeLevel}
+        />
       </div>
+
+      {/* Footer */}
+      <footer
+        style={{
+          color: "#e0b3ff",
+          fontSize: "14px",
+          textShadow: "0 0 5px #e0b3ff",
+          textAlign: "center",
+          padding: "10px",
+          zIndex: 1,
+        }}
+      >
+        Desarrollado por CoffeeUpCode
+      </footer>
     </div>
   );
 };
