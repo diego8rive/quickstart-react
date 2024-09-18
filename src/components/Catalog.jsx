@@ -206,6 +206,48 @@ const products = [
         "Name": "WL16",
         "Category": "Hidrologia",
         "Image": "/assets/images/Global-Water-WL-16-600x600.png"
+    },
+    {
+        "Id": "0f7d4043-c997-404e-9a8b-33d8f49e5912",
+        "Nova_Name": "Nova_Active_8_Pro",
+        "Name": "Active 8 Pro",
+        "Category": "Tablet",
+        "Image": "/assets/images/Active8Pro-1-20230729033936379.png"
+    },
+    {
+        "Id": "52dd0a87-6fc3-4e8b-bfd7-a0680d39aa08",
+        "Nova_Name": "Nova_Autel_Alpha",
+        "Name": "Autel Alpha",
+        "Category": "Dron_Aereo",
+        "Image": "/assets/images/Alpha (1).png"
+    },
+    {
+        "Id": "3bb347a2-041d-4c3f-9985-54773605fbc7",
+        "Nova_Name": "Nova_Autel_Evo_Lite",
+        "Name": "Autel Evo Lite",
+        "Category": "Dron_Aereo",
+        "Image": "/assets/images/ch8.png"
+    },
+    {
+        "Id": "d972b3db-76e5-4355-8558-688cbea7919f",
+        "Nova_Name": "Nova_PB3_PowerBuoy",
+        "Name": "PB3 PowerBuoy",
+        "Category": "Hidrologia",
+        "Image": "/assets/images/opt-pb3-power-buoy.png"
+    },
+    {
+        "Id": "628df02d-c21e-4b74-918e-37998d150138",
+        "Nova_Name": "Nova_H9",
+        "Name": "H9",
+        "Category": "Tablet",
+        "Image": "/assets/images/H9_1.jpg"
+    },
+    {
+        "Id": "57b0bedf-4fa1-46ee-9dba-ce2d34797d7a",
+        "Nova_Name": "Nova_GNSS_V1",
+        "Name": "V1",
+        "Category": "GNSS",
+        "Image": "/assets/images/V1.png"
     }
 ];
 
@@ -244,6 +286,7 @@ const Catalog = () => {
                         { label: 'Estación Total', value: 'Estacion_Total' },
                         { label: 'Nivel Digital', value: 'Nivel_Digital' },
                         { label: 'Monitoreo', value: 'Monitoreo' },
+                        { label: 'Tablet', value: 'Tablet' },
                     ].map((filter) => (
                         <button
                             key={filter.value}
