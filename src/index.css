@@ -122,4 +122,11 @@ body {
   animation: electricGlow 0.8s infinite;
 }
 
+/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles (if any) */
+
 /* index.css */
