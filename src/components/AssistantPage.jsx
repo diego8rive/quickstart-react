@@ -1,10 +1,10 @@
-// components/AssistantPage.jsx
+// AssistantPage.jsx
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Button from './base/Button';
 import Vapi from '@vapi-ai/web';
 import ParticlesBackground from './ParticlesBackground';
-import { FaArrowLeft } from 'react-icons/fa'; // Import Font Awesome icon
+import { FaArrowLeft } from 'react-icons/fa'; // Import the icon
 
 const AssistantPage = () => {
     const { assistantId } = useParams();
@@ -14,18 +14,15 @@ const AssistantPage = () => {
     const [connected, setConnected] = useState(false);
     const [volumeLevel, setVolumeLevel] = useState(0);
 
-    // Initialize Vapi with your public key using useRef
     const vapiRef = useRef(null);
 
     useEffect(() => {
-        // Initialize Vapi only once
         if (!vapiRef.current) {
             vapiRef.current = new Vapi('ad66965e-8208-4404-8b1c-ac4f81d2a107');
         }
 
         const vapi = vapiRef.current;
 
-        // Vapi event handlers
         vapi.on('call-start', () => {
             setConnecting(false);
             setConnected(true);
@@ -47,27 +44,28 @@ const AssistantPage = () => {
 
         // Cleanup on unmount
         return () => {
-            if (connected || connecting) {
-                vapi.stop();
+            if (vapiRef.current) {
+                vapiRef.current.stop();
+                vapiRef.current.removeAllListeners();
             }
-            vapi.removeAllListeners();
         };
-    }, []); // We can safely omit dependencies here
+    }, []);
 
-    // Start call with dynamic assistant ID
     const startCallInline = () => {
         setConnecting(true);
         vapiRef.current.start(assistantId);
     };
 
-    // End call handler
     const endCall = () => {
-        console.log('End call function called');
         vapiRef.current.stop();
     };
 
-    // Back button handler
     const goBack = () => {
+        // Stop the call and remove listeners before navigating back
+        if (vapiRef.current) {
+            vapiRef.current.stop();
+            vapiRef.current.removeAllListeners();
+        }
         navigate('/');
     };
 
@@ -76,7 +74,7 @@ const AssistantPage = () => {
     if (connecting) {
         labelText = 'Conectando...';
     } else if (connected) {
-        labelText = 'Pulse el botón para terminar';
+        labelText = 'Pulse para terminar la llamada';
     } else {
         labelText = 'Pulse el botón para asistencia';
     }
@@ -95,6 +93,14 @@ const AssistantPage = () => {
             {/* Particles Background */}
             <ParticlesBackground />
 
+            {/* Back Button */}
+            <button
+                onClick={goBack}
+                className="absolute top-4 left-4 flex items-center bg-neon-purple hover:bg-purple-700 text-white font-bold py-2 px-3 rounded-full button-glow z-10"
+            >
+                <FaArrowLeft className="mr-2" /> Volver
+            </button>
+
             {/* Main Content */}
             <div
                 style={{
@@ -109,21 +115,6 @@ const AssistantPage = () => {
                     padding: '20px',
                 }}
             >
-                {/* Back Button */}
-                <button
-                    onClick={goBack}
-                    style={{
-                        position: 'absolute',
-                        top: '20px',
-                        left: '20px',
-                        padding: '10px',
-                        cursor: 'pointer',
-                        zIndex: 2,
-                    }}
-                >
-                    Volver
-                </button>
-
                 {/* Label */}
                 <p
                     style={{
