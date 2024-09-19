@@ -74,7 +74,7 @@ const AssistantPage = () => {
     if (connecting) {
         labelText = 'Conectando...';
     } else if (connected) {
-        labelText = 'Pulse para terminar la llamada';
+        labelText = 'Pulse para terminar';
     } else {
         labelText = 'Pulse el botón para asistencia';
     }
