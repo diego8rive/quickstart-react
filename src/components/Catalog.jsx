@@ -1,8 +1,7 @@
 // src/components/Catalog.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-// Sample products data (you can replace this with your actual data)
 const products = [
     {
         "Id": "f6e9cb18-7967-429f-8735-b13098e3bccc",
@@ -314,7 +313,8 @@ const Catalog = () => {
                             <div className="p-4">
                                 <h2 className="text-xl font-semibold mb-2">{product.Name}</h2>
                                 <p className="mb-4">Categoría: {product.Category}</p>
-                                <Link to={`/assistant/${product.Id}`}>
+                                {/* Inside the Product Cards mapping */}
+                                <Link to={`/assistant/${encodeURIComponent(product.Name)}`}>
                                     <button className="bg-neon-purple hover:bg-purple-700 text-white font-bold py-2 px-4 rounded button-glow">
                                         Consultar Asistente
                                     </button>

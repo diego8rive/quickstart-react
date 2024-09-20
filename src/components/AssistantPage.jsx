@@ -1,13 +1,15 @@
-// AssistantPage.jsx
+// src/components/AssistantPage.jsx
+
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Button from './base/Button';
 import Vapi from '@vapi-ai/web';
+import { assistantsData } from '../assistantData';
+import { FaArrowLeft } from 'react-icons/fa';
+import Button from './base/Button';
 import ParticlesBackground from './ParticlesBackground';
-import { FaArrowLeft } from 'react-icons/fa'; // Import the icon
 
 const AssistantPage = () => {
-    const { assistantId } = useParams();
+    const { assistantName } = useParams(); // Get the product name from the URL
     const navigate = useNavigate();
 
     const [connecting, setConnecting] = useState(false);
@@ -16,9 +18,39 @@ const AssistantPage = () => {
 
     const vapiRef = useRef(null);
 
+    // Decode the assistant name from the URL
+    const decodedAssistantName = decodeURIComponent(assistantName);
+
+    // Find the assistant data for the product
+    const assistantInfo = assistantsData.find(
+        (item) => item.productName === decodedAssistantName
+    );
+
+    // Select an account index (logic to distribute calls)
+    const [accountIndex] = useState(() => {
+        return Math.floor(Math.random() * 2); // Assuming there are always 2 accounts
+    });
+
+    // Initialize accountId and assistantId
+    let accountId = null;
+    let assistantId = null;
+
+    if (assistantInfo) {
+        const assistantData = assistantInfo.assistants[accountIndex];
+        accountId = assistantData.accountId;
+        assistantId = assistantData.assistantId;
+        console.log('accountId:', accountId);
+    }
+
     useEffect(() => {
-        if (!vapiRef.current) {
-            vapiRef.current = new Vapi('ad66965e-8208-4404-8b1c-ac4f81d2a107');
+        if (!assistantInfo) {
+            // Handle the case where the assistant is not found
+            navigate('/');
+            return;
+        }
+
+        if (!vapiRef.current && accountId) {
+            vapiRef.current = new Vapi(accountId);
         }
 
         const vapi = vapiRef.current;
@@ -49,19 +81,22 @@ const AssistantPage = () => {
                 vapiRef.current.removeAllListeners();
             }
         };
-    }, []);
+    }, [accountId, assistantInfo, navigate]);
 
     const startCallInline = () => {
-        setConnecting(true);
-        vapiRef.current.start(assistantId);
+        if (vapiRef.current && assistantId) {
+            setConnecting(true);
+            vapiRef.current.start(assistantId);
+        }
     };
 
     const endCall = () => {
-        vapiRef.current.stop();
+        if (vapiRef.current) {
+            vapiRef.current.stop();
+        }
     };
 
     const goBack = () => {
-        // Stop the call and remove listeners before navigating back
         if (vapiRef.current) {
             vapiRef.current.stop();
             vapiRef.current.removeAllListeners();
