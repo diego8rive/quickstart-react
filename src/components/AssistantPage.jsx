@@ -39,7 +39,6 @@ const AssistantPage = () => {
         const assistantData = assistantInfo.assistants[accountIndex];
         accountId = assistantData.accountId;
         assistantId = assistantData.assistantId;
-        console.log('accountId:', accountId);
     }
 
     useEffect(() => {
