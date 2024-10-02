@@ -1,6 +1,7 @@
 // src/components/Catalog.jsx
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const products = [
     {
@@ -265,8 +266,15 @@ const Catalog = () => {
         }
     };
 
+    const navigate = useNavigate();
+
     return (
         <div className="bg-black text-white min-h-screen">
+            <div>
+                <h1>Assistant Page</h1>
+                {/* Existing content */}
+                <button onClick={() => navigate('/voice-capture')}>Go to Voice Capture Test</button>
+            </div>
             <header className="text-center py-8">
                 <h1 className="text-4xl font-bold text-glow">Nuestros Productos</h1>
             </header>
